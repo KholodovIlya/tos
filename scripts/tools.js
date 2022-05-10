@@ -51,17 +51,7 @@ function clearCircle(layer, transform, radius) {
 
 // Input
 class Mouse extends GameObject {
-  constructor() {
-    super(0, 0, 0, 0); this.down = false;
-
-    document.addEventListener("mousemove", (event) => this.move(event.clientX, event.clientY));
-    document.addEventListener("mousedown", () => this.down = true);
-    document.addEventListener("mouseup", () => this.down = false);
-
-    document.addEventListener("touchmove", (event) => this.touch(event));
-    document.addEventListener("touchstart", function(event) { mouse.touch(event); mouse.down = true; });
-    document.addEventListener("touchend", () => this.down = false);
-  }
+  constructor() { super(0, 0, 0, 0); this.down = false; }
 
   move(x, y) {
     this.transform.position.x = (x - canvas.offsetLeft) / (canvas.offsetWidth / canvas.width);
@@ -73,6 +63,18 @@ class Mouse extends GameObject {
   collision(other) {}
 }
 const mouse = new Mouse(); objects.push(mouse);
+
+// PC input
+document.addEventListener("mousemove", (event) => mouse.move(event.clientX, event.clientY));
+document.addEventListener("mousedown", () => mouse.down = true);
+document.addEventListener("mouseup", () => mouse.down = false);
+// PC input
+
+// Mobile input
+document.addEventListener("touchmove", (event) => mouse.touch(event));
+document.addEventListener("touchstart", function(event) { mouse.down = true; mouse.touch(event); });
+document.addEventListener("touchend", () => mouse.down = false);
+// Mobile input
 // Input
 
 
